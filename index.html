@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор RS-232</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Калькулятор загрузки RS-232</h1>
+        
+        <div class="controls">
+            <div class="input-group">
+                <label>Количество строк в таблице:</label>
+                <div class="row-control">
+                    <input type="number" id="rowCount" value="50" min="1" max="200">
+                    <button id="updateRows">Обновить</button>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label>Накладные расходы (X, байты):</label>
+                <input type="number" id="overhead" value="8" min="0">
+            </div>
+            
+            <div class="input-group">
+                <label>Скорость RS-232 (S, бит/с):</label>
+                <input type="number" id="speed" value="9600" min="300">
+                <div class="presets">
+                    <button class="preset" data-speed="9600">9600</button>
+                    <button class="preset" data-speed="19200">19200</button>
+                    <button class="preset" data-speed="115200">115200</button>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label>Стоп-биты (C):</label>
+                <select id="stopBits">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="1.5">1.5</option>
+                    <option value="2">2</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label>Бит чётности (V):</label>
+                <select id="parityBit">
+                    <option value="0">Нет (0 бит)</option>
+                    <option value="1">Есть (1 бит)</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label>Время операции (сек):</label>
+                <input type="number" id="operationTime" value="1" min="0.1" step="0.1">
+            </div>
+        </div>
+        
+        <div class="results">
+            <div class="result-box">
+                <h3>Суммарное время (сек):</h3>
+                <div id="totalTime">0.000</div>
+            </div>
+            <div class="result-box">
+                <h3>Свободное время (сек):</h3>
+                <div id="freeTime">1.000</div>
+            </div>
+            <div class="result-box">
+                <h3>% загрузки:</h3>
+                <div id="loadPercent">0.00%</div>
+                <div class="progress">
+                    <div id="progressBar"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <h2>Таблица данных (<span id="currentRowCount">50</span> строк)</h2>
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Размер (Z), байты</th>
+                        <th>Частота, Гц</th>
+                        <th>Бит на пакет (N)</th>
+                        <th>Время передачи (tn), сек</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="buttons">
+            <button id="clear">Очистить таблицу</button>
+        </div>
+        
+        <div class="formula">
+            <p><b>Формулы:</b> N = (Z+X)×(8+C+V), tn = N/S, Загрузка = (Σ(tn×Частота)×Время)/Время×100%</p>
+        </div>
+    </div>
+    
+    <script src="./main.js"></script>
+</body>
+</html>
